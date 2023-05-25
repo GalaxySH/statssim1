@@ -1,6 +1,7 @@
 const outcomes1 = [];
 const outcomes2 = [];
 const runs = 1000000;
+const payouts = [];
 
 for (let i = 0; i < runs; i++) {
     const r = Math.random();
@@ -34,31 +35,48 @@ for (let i = 0; i < runs; i++) {
         }
     }
     outcomes2.push([c, l]);
+    payouts.push(c);
 }
 
 /* for (o of outcomes1) {
     console.log(o);
 }
  */
-const payouts = [];
 
-for (o of outcomes2) {
-    //console.log(o);
-    payouts.push(o[0]);
-}
-
-console.log(payouts);
+/* for (o of outcomes2) {
+    console.log(o);
+} */
 let t = 0;
 for (p of payouts) {
     t += p;
 }
 const mean = t/runs;
-console.log("Mean: " + mean);
 let dfm = 0;
 for (p of payouts) {
     dfm += Math.abs(mean - p);
 }
 const sd = dfm / runs;
-console.log("SD: " + sd);
+const tallies = {"-2": 0, 0: 0, 2: 0, 4: 0, 16: 0};
+
+for (p of payouts) {
+    if (p == -2) tallies[-2]++;
+    if (p == 0) tallies[0]++;
+    if (p == 2) tallies[2]++;
+    // if (p == 4) tallies[4]++;
+    if (p == 16) tallies[16]++;
+}
+
+console.log(`Payouts for D$2: `, payouts);
+console.log(`| SUMMARY
+| Simulations run: ${runs}
+| Mean: ${mean}
+| SD: ${sd}
+| TALLIES
+| D$-2 ${tallies[-2]} (${tallies[-2]/runs})
+| D$0  ${tallies[0]} (${tallies[0]/runs})
+| D$2  ${tallies[2]} (${tallies[2]/runs})
+| D$16 ${tallies[16]} (${tallies[16]/runs})
+`);
+
 //TODO: calculate probability and tallies for each payout
 //toodaloo
