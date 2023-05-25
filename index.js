@@ -61,3 +61,4 @@ for (p of payouts) {
 const sd = dfm / runs;
 console.log("SD: " + sd);
 //TODO: calculate probability and tallies for each payout
+//toodaloo
